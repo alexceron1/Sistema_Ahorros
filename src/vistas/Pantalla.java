@@ -3,6 +3,7 @@ package vistas;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import datos.*;
 
 /**
  *
@@ -36,17 +37,22 @@ public class Pantalla extends javax.swing.JFrame {
         subMenuCuenta = new javax.swing.JCheckBoxMenuItem();
         subMenuDepartamento = new javax.swing.JCheckBoxMenuItem();
         subMenuEstado = new javax.swing.JCheckBoxMenuItem();
-        subMenuSucursal = new javax.swing.JCheckBoxMenuItem();
         subMenuTipoCuenta = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         menuMovimientos = new javax.swing.JMenu();
         subMenuMovimiento = new javax.swing.JMenuItem();
+        menuReportes = new javax.swing.JMenu();
+        subMenuClientes = new javax.swing.JMenuItem();
+        subMenuDepartamentos = new javax.swing.JMenuItem();
+        subMenuEstados = new javax.swing.JMenuItem();
+        subMenuTipoCuentas = new javax.swing.JMenuItem();
         menuSalir = new javax.swing.JMenu();
         subMenuSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblUsuario.setText("jLabel1");
+        lblUsuario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        lblUsuario.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         escritorio.setLayer(lblUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -55,8 +61,8 @@ public class Pantalla extends javax.swing.JFrame {
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, escritorioLayout.createSequentialGroup()
-                .addContainerGap(621, Short.MAX_VALUE)
-                .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(510, Short.MAX_VALUE)
+                .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         escritorioLayout.setVerticalGroup(
@@ -64,7 +70,7 @@ public class Pantalla extends javax.swing.JFrame {
             .addGroup(escritorioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(393, Short.MAX_VALUE))
+                .addContainerGap(394, Short.MAX_VALUE))
         );
 
         subMenuUsuario.setText("Catalogos");
@@ -105,17 +111,14 @@ public class Pantalla extends javax.swing.JFrame {
         });
         subMenuUsuario.add(subMenuEstado);
 
-        subMenuSucursal.setSelected(true);
-        subMenuSucursal.setText("Sucursal");
-        subMenuUsuario.add(subMenuSucursal);
-
         subMenuTipoCuenta.setSelected(true);
         subMenuTipoCuenta.setText("Tipo Cuenta");
+        subMenuTipoCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenuTipoCuentaActionPerformed(evt);
+            }
+        });
         subMenuUsuario.add(subMenuTipoCuenta);
-
-        jCheckBoxMenuItem1.setSelected(true);
-        jCheckBoxMenuItem1.setText("Usuario");
-        subMenuUsuario.add(jCheckBoxMenuItem1);
 
         barraMenu.add(subMenuUsuario);
 
@@ -125,6 +128,42 @@ public class Pantalla extends javax.swing.JFrame {
         menuMovimientos.add(subMenuMovimiento);
 
         barraMenu.add(menuMovimientos);
+
+        menuReportes.setText("Reportes");
+
+        subMenuClientes.setText("Listado clientes");
+        subMenuClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenuClientesActionPerformed(evt);
+            }
+        });
+        menuReportes.add(subMenuClientes);
+
+        subMenuDepartamentos.setText("Listado departamentos");
+        subMenuDepartamentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenuDepartamentosActionPerformed(evt);
+            }
+        });
+        menuReportes.add(subMenuDepartamentos);
+
+        subMenuEstados.setText("Listado Estados");
+        subMenuEstados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenuEstadosActionPerformed(evt);
+            }
+        });
+        menuReportes.add(subMenuEstados);
+
+        subMenuTipoCuentas.setText("Listado Tipos Cuenta");
+        subMenuTipoCuentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenuTipoCuentasActionPerformed(evt);
+            }
+        });
+        menuReportes.add(subMenuTipoCuentas);
+
+        barraMenu.add(menuReportes);
 
         menuSalir.setText("Salir");
 
@@ -203,6 +242,66 @@ public class Pantalla extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_subMenuEstadoActionPerformed
 
+    private void subMenuTipoCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenuTipoCuentaActionPerformed
+        // TODO add your handling code here:
+        FormTipoCuenta formTipoCuenta = new FormTipoCuenta();
+        escritorio.add(formTipoCuenta);
+        try {
+            formTipoCuenta.setSelected(true);
+            formTipoCuenta.moveToFront();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_subMenuTipoCuentaActionPerformed
+
+    private void subMenuClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenuClientesActionPerformed
+        // TODO add your handling code here:
+        FormListadoClientes formListadoClientes = new FormListadoClientes();
+        escritorio.add(formListadoClientes);
+        try {
+            formListadoClientes.setSelected(true);
+            formListadoClientes.moveToFront();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_subMenuClientesActionPerformed
+
+    private void subMenuDepartamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenuDepartamentosActionPerformed
+        // TODO add your handling code here:
+        FormListadoDepartamento formListadoDepartamento = new FormListadoDepartamento();
+        escritorio.add(formListadoDepartamento);
+        try {
+            formListadoDepartamento.setSelected(true);
+            formListadoDepartamento.moveToFront();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_subMenuDepartamentosActionPerformed
+
+    private void subMenuEstadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenuEstadosActionPerformed
+        // TODO add your handling code here:
+        FormListadoEstados formListadoEstados = new FormListadoEstados();
+        escritorio.add(formListadoEstados);
+        try {
+            formListadoEstados.setSelected(true);
+            formListadoEstados.moveToFront();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_subMenuEstadosActionPerformed
+
+    private void subMenuTipoCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenuTipoCuentasActionPerformed
+        // TODO add your handling code here:
+        FormListadoTipoCuentas formListadoTipoCuentas = new FormListadoTipoCuentas();
+        escritorio.add(formListadoTipoCuentas);
+        try {
+            formListadoTipoCuentas.setSelected(true);
+            formListadoTipoCuentas.moveToFront();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_subMenuTipoCuentasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -211,18 +310,21 @@ public class Pantalla extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
     private javax.swing.JDesktopPane escritorio;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JMenu menuMovimientos;
+    private javax.swing.JMenu menuReportes;
     private javax.swing.JMenu menuSalir;
     private javax.swing.JCheckBoxMenuItem subMenuCliente;
+    private javax.swing.JMenuItem subMenuClientes;
     private javax.swing.JCheckBoxMenuItem subMenuCuenta;
     private javax.swing.JCheckBoxMenuItem subMenuDepartamento;
+    private javax.swing.JMenuItem subMenuDepartamentos;
     private javax.swing.JCheckBoxMenuItem subMenuEstado;
+    private javax.swing.JMenuItem subMenuEstados;
     private javax.swing.JMenuItem subMenuMovimiento;
     private javax.swing.JMenuItem subMenuSalir;
-    private javax.swing.JCheckBoxMenuItem subMenuSucursal;
     private javax.swing.JCheckBoxMenuItem subMenuTipoCuenta;
+    private javax.swing.JMenuItem subMenuTipoCuentas;
     private javax.swing.JMenu subMenuUsuario;
     // End of variables declaration//GEN-END:variables
 }

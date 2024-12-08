@@ -40,7 +40,7 @@ public class ProcesosDepartamento {
         return datos;
     }
     // Agregar departamento
-    public int Agregar(Departamento dep){
+    public int agregar(Departamento dep){
         int resultado = 0;
         String sql = "INSERT INTO departamento (id_departamento,nombre) VALUES (?,?)";
         try {
@@ -60,10 +60,11 @@ public class ProcesosDepartamento {
     // Modificar departamento
     public int modificar(Departamento dep){
         int resultado = 0;
-        String sql = "UPDATE departamento SET id_departamento=?, nombre=?";
+        String sql = "UPDATE departamento SET nombre=? WHERE id_departamento=?";
         try {
-            ps.setInt(1, dep.getIdDepartamento());
-            ps.setString(2, dep.getNombre());
+            ps = con.prepareStatement(sql);
+            ps.setString(1, dep.getNombre());
+            ps.setInt(2, dep.getIdDepartamento());
             resultado = ps.executeUpdate();
             if(resultado == 1){
                 return 1;

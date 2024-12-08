@@ -40,7 +40,7 @@ public class ProcesosEstado {
         return datos;
     }
     // Agregar estado
-    public int Agregar(Estado est){
+    public int agregar(Estado est){
         int resultado = 0;
         String sql = "INSERT INTO estado (id_estado,nombre) VALUES (?,?)";
         try {
@@ -60,10 +60,11 @@ public class ProcesosEstado {
     // Modificar estado
     public int modificar(Estado est){
         int resultado = 0;
-        String sql = "UPDATE estado SET id_estado=?, nombre=?";
+        String sql = "UPDATE estado SET nombre=? WHERE id_estado=?";
         try {
-            ps.setInt(1, est.getIdEstado());
-            ps.setString(2, est.getNombre());
+            ps = con.prepareStatement(sql);
+            ps.setString(1, est.getNombre());
+            ps.setInt(2, est.getIdEstado());
             resultado = ps.executeUpdate();
             if(resultado == 1){
                 return 1;

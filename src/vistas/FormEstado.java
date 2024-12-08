@@ -1,20 +1,38 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package vistas;
 
 /**
  *
  * @author oscar
  */
+import datos.*;
+import java.awt.HeadlessException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import procesos.ProcesosEstado;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 public class FormEstado extends javax.swing.JInternalFrame {
-
+    private Estado estado;
+    private ProcesosEstado procesos;
+    private DefaultTableModel modelo = new DefaultTableModel();
+    private String accion;
     /**
      * Creates new form FormEstado
      */
     public FormEstado() {
+        estado = new Estado();
+        procesos = new ProcesosEstado();
+        modelo = null;
+        accion = "";
         initComponents();
+        habilitarCampos(false);
+        listar(tabla);
     }
 
     /**
@@ -27,21 +45,21 @@ public class FormEstado extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
-        btnModificarCliente = new javax.swing.JButton();
-        btnAgregarCliente = new javax.swing.JButton();
-        btnEliminarCliente = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
-        btnGuardarCliente = new javax.swing.JButton();
-        btnCancelarCliente = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
-        btnSalirCliente = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        txtNombreEstado = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        txtIdEstado = new javax.swing.JTextField();
+        lblNombre = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        lblId = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -58,53 +76,85 @@ public class FormEstado extends javax.swing.JInternalFrame {
         jToolBar1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jToolBar1.setRollover(true);
 
-        btnModificarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit.png"))); // NOI18N
-        btnModificarCliente.setText("Modificar");
-        btnModificarCliente.setFocusable(false);
-        btnModificarCliente.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnModificarCliente.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btnModificarCliente);
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add-file.png"))); // NOI18N
+        btnAgregar.setText("Agregar");
+        btnAgregar.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnAgregar.setMinimumSize(new java.awt.Dimension(20, 22));
+        btnAgregar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnAgregar);
 
-        btnAgregarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add-file.png"))); // NOI18N
-        btnAgregarCliente.setText("Agregar");
-        btnAgregarCliente.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnAgregarCliente.setMinimumSize(new java.awt.Dimension(20, 22));
-        btnAgregarCliente.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btnAgregarCliente);
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit.png"))); // NOI18N
+        btnModificar.setText("Modificar");
+        btnModificar.setFocusable(false);
+        btnModificar.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnModificar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnModificar);
 
-        btnEliminarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete (1).png"))); // NOI18N
-        btnEliminarCliente.setText("Eliminar");
-        btnEliminarCliente.setFocusable(false);
-        btnEliminarCliente.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnEliminarCliente.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btnEliminarCliente);
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete (1).png"))); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.setFocusable(false);
+        btnEliminar.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnEliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnEliminar);
         jToolBar1.add(jSeparator1);
 
-        btnGuardarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/computer.png"))); // NOI18N
-        btnGuardarCliente.setText("Guardar");
-        btnGuardarCliente.setFocusable(false);
-        btnGuardarCliente.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnGuardarCliente.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btnGuardarCliente);
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/computer.png"))); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.setFocusable(false);
+        btnGuardar.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnGuardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnGuardar);
 
-        btnCancelarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/rejected.png"))); // NOI18N
-        btnCancelarCliente.setText("Cancelar");
-        btnCancelarCliente.setFocusable(false);
-        btnCancelarCliente.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnCancelarCliente.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btnCancelarCliente);
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/rejected.png"))); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setFocusable(false);
+        btnCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnCancelar);
         jToolBar1.add(jSeparator2);
 
-        btnSalirCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logout (1).png"))); // NOI18N
-        btnSalirCliente.setText("Salir");
-        btnSalirCliente.setFocusable(false);
-        btnSalirCliente.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnSalirCliente.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btnSalirCliente);
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logout (1).png"))); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.setFocusable(false);
+        btnSalir.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnSalir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnSalir);
 
-        jLabel3.setText("Nombre:");
+        lblNombre.setText("Nombre:");
 
-        jLabel1.setText("ID:");
+        lblId.setText("ID:");
+
+        txtId.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -112,25 +162,25 @@ public class FormEstado extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel1)
+                .addComponent(lblId)
                 .addGap(42, 42, 42)
-                .addComponent(txtIdEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(419, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jLabel3)
-                    .addGap(18, 18, 18)
-                    .addComponent(txtNombreEstado)
-                    .addContainerGap()))
+                    .addComponent(lblNombre)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(244, 244, 244)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtIdEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblId)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(65, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -138,23 +188,26 @@ public class FormEstado extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGap(3, 3, 3)
-                            .addComponent(jLabel3))
-                        .addComponent(txtNombreEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblNombre))
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(23, Short.MAX_VALUE)))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "ID", "Nombre"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -179,23 +232,208 @@ public class FormEstado extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        // TODO add your handling code here:
+        accion = "";
+        int fila = tabla.getSelectedRow();
+        txtId.setText(String.valueOf(tabla.getValueAt(fila, 0)));
+        txtNombre.setText(String.valueOf(tabla.getValueAt(fila, 1)));
+    }//GEN-LAST:event_tablaMouseClicked
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        accion = "agregar";
+        limpiar();
+        habilitarCampos(true);
+        //tabla.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnGuardar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        accion = "modificar";
+        int fila = tabla.getSelectedRow();
+        if(fila == -1){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
+        } else {
+            habilitarCampos(true);
+            btnAgregar.setEnabled(false);
+            btnEliminar.setEnabled(false);
+            btnGuardar.setEnabled(true);
+            btnCancelar.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        if((JOptionPane.showConfirmDialog(this, "¿Esta seguro?, se eliminara permanentemente.", "Eliminar", JOptionPane.YES_NO_OPTION)) == 0){
+            eliminar();
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        if(accion.equalsIgnoreCase("agregar")){
+            agregar();
+        } else if (accion.equalsIgnoreCase("modificar")){
+            modificar();
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una acción");
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        accion = "";
+        limpiar();
+        habilitarCampos(false);
+        //tabla.setEnabled(true);
+        btnAgregar.setEnabled(true);
+        btnModificar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+        btnGuardar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    public void agregar(){
+        try{
+            if(txtNombre.getText().isEmpty()){//si esta vacio
+                JOptionPane.showMessageDialog(this, "Debe ingresar un Nombre.");
+                txtNombre.requestFocus();
+            }else {
+                estado.setIdEstado(0);
+                estado.setNombre(txtNombre.getText());
+                
+                int r = procesos.agregar(estado);
+                if(r == 1){
+                    JOptionPane.showMessageDialog(this, "Estado agregado con exito.");
+                    limpiar();
+                    habilitarCampos(false);
+                    btnAgregar.setEnabled(true);
+                    btnModificar.setEnabled(true);
+                    btnEliminar.setEnabled(true);
+                    btnGuardar.setEnabled(false);
+                    btnCancelar.setEnabled(false);
+                    listar(tabla);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error");
+                }
+            }
+        } catch (HeadlessException ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+    public void modificar(){
+        if(txtId.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un estado");
+        } else {    
+            try {
+                if(txtNombre.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Debe ingresar un Nombre.");
+                    txtNombre.requestFocus();
+                }else {
+                    estado.setIdEstado(Integer.parseInt(txtId.getText()));
+                    estado.setNombre(txtNombre.getText());
+                    
+                    int r = procesos.modificar(estado);
+                    if (r == 1){
+                        JOptionPane.showMessageDialog(this, "Estado modificado con exito.");
+                        limpiar();
+                        habilitarCampos(false);
+                        btnAgregar.setEnabled(true);
+                        btnModificar.setEnabled(true);
+                        btnEliminar.setEnabled(true);
+                        btnGuardar.setEnabled(false);
+                        btnCancelar.setEnabled(false);
+                        listar(tabla);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Error");
+                    }
+                }
+            } catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Error");
+            }
+        }
+    }
+    public void eliminar(){
+        int fila = tabla.getSelectedRow();
+        if (fila == -1){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un estado");
+        } else {
+            int cod = Integer.parseInt(String.valueOf(tabla.getValueAt(fila, 0)));
+            int r = procesos.eliminar(cod);
+            if(r == 1){
+                JOptionPane.showMessageDialog(this, "Estado eliminado correctamente");
+                limpiar();
+                habilitarCampos(false);
+                listar(tabla);
+            } else {
+                JOptionPane.showMessageDialog(this, "Error");
+            }
+        }
+    }
+    private void habilitarCampos(boolean opcion){//No habilitamos el id
+        txtNombre.setEnabled(opcion);
+        tabla.setEnabled(!opcion);
+    }
+    private void limpiar(){
+        txtId.setText("");
+        txtNombre.setText("");
+        txtNombre.requestFocus();
+    }
+
+    private void limpiarTabla(){
+        for(int i = 0; i < tabla.getRowCount(); i++){
+            modelo.removeRow(i);
+            i = i - 1;
+        }
+    }
+    
+    private void centrarCeldas(JTable tabla){
+        DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(SwingConstants.CENTER);//Esta en las propiedades pero lo aplica a todas las celdas
+        tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+        tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
+    }
+
+    private void listar(JTable tabla){
+        limpiarTabla();
+        centrarCeldas(tabla);//
+        modelo = (DefaultTableModel) tabla.getModel();
+        tabla.setModel(modelo);
+        List<Estado> lista = procesos.listar();
+        Object[] objeto = new Object[8];
+        for (int i = 0; i < lista.size(); i++){
+            objeto[0] = lista.get(i).getIdEstado();
+            objeto[1] = lista.get(i).getNombre();
+            modelo.addRow(objeto);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregarCliente;
-    private javax.swing.JButton btnCancelarCliente;
-    private javax.swing.JButton btnEliminarCliente;
-    private javax.swing.JButton btnGuardarCliente;
-    private javax.swing.JButton btnModificarCliente;
-    private javax.swing.JButton btnSalirCliente;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JTextField txtIdEstado;
-    private javax.swing.JTextField txtNombreEstado;
+    private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JTable tabla;
+    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,6 +9,8 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Timestamp;
+import java.util.Date;
 public class ProcesosCliente {
     private PreparedStatement ps;
     private ResultSet rs; //Es una tabla con los datos retornados por la consulta
@@ -60,8 +62,9 @@ public class ProcesosCliente {
             ps.setString(6, cli.getTelefono());
             ps.setString(7, cli.getDireccion());
             ps.setDate(8, new java.sql.Date(cli.getFechaNacimiento().getTime()));//(java.sql.Date)cli.getFechaNacimiento(
-            ps.setDate(9, new java.sql.Date(cli.getFechaCreacion().getTime()));
-            ps.setInt(10, 1);
+            ps.setTimestamp(9, new Timestamp(new Date().getTime()));
+            //ps.setDate(9, new java.sql.Date(cli.getFechaCreacion().getTime()));
+            ps.setInt(10, cli.getUsuario().getIdUsuario());//Arreglar la relaciontte
             resultado = ps.executeUpdate();
             if(resultado == 1){
                 return 1;

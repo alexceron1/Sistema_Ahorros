@@ -4,7 +4,8 @@ package datos;
  *
  * @author oscar
  */
-import java.util.Date;public class Cliente {
+import java.util.Date;
+public class Cliente {
     private int idCliente;
     private String dui;
     private String nombre;
